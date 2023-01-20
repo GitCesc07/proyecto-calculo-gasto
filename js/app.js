@@ -32,8 +32,7 @@ class Presupuesto {
 
   eliminarGasto(id) {
     this.gastos = this.gastos.filter(gasto => gasto.id !== id);
-
-    console.log(this.gastos);
+    this.calcularRestante();
   }
 }
 
@@ -123,8 +122,12 @@ class UI {
       restanteDiv.classList.add("alert-danger");
     }
     else if ((presupuesto / 2) > restante) {
-      restanteDiv.classList.remove("alert-success")
+      restanteDiv.classList.remove("alert-success");
       restanteDiv.classList.add("alert-warning");
+    }
+    else {
+      restanteDiv.classList.remove("alert-danger", "alert-warning");
+      restanteDiv.classList.add("alert-success");
     }
 
 
@@ -189,9 +192,7 @@ function agregarGasto(e) {
   // imprimir los gastos
   const { gastos, restante } = presupuesto;
   ui.mostrarGastos(gastos);
-
   ui.actualizarRestante(restante);
-
   ui.comprobarPresupuesto(presupuesto);
 
   // Reiniciar el formulario
@@ -203,6 +204,10 @@ function eliminarGasto(id) {
   presupuesto.eliminarGasto(id);
 
   // Elimina los gastos del HTML
-  const { gastos } = presupuesto;
+  const { gastos, restante } = presupuesto;
   ui.mostrarGastos(gastos);
+
+  ui.actualizarRestante(restante);
+
+  ui.comprobarPresupuesto(presupuesto);
 }
